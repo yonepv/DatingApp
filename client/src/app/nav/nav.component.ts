@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs';
 import { AccountService } from './../_services/account.service';
 import { Component, OnInit } from '@angular/core';
-import { User } from '../_models/user';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-nav',
@@ -11,37 +12,23 @@ import { User } from '../_models/user';
 export class NavComponent implements OnInit {
 
   model: any = {}
-  //currentUser$ = new Observable<User>();//currentUser$: Observable<User> does not compile!!!
-  //loggedIn!: boolean;
 
-  constructor(public accountService: AccountService) { }
+  constructor(public accountService: AccountService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    //this.getCurrentUser();
-    //this.currentUser$ = this.accountService.currentUser$;
   }
 
   login() {
     this.accountService.login(this.model).subscribe(response => {
-      console.log(response);
-      //this.loggedIn = true;
+      this.router.navigateByUrl("/members");
     }, error => {
       console.log(error);
+      this.toastr.error(error.error);
     })
   }
 
   logout() {
     this, this.accountService.logout();
-    //this.loggedIn = false;
+    this.router.navigateByUrl("/");
   }
-
-  /*
-  getCurrentUser() {
-    this.accountService.currentUser$.subscribe(user => {
-      this.loggedIn = !!user;//!! turns an objet into a boolean
-    }, error => {
-      console.log(error);
-    })
-  }*/
-
 }
