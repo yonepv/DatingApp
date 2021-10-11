@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using API.Entities;
 using Microsoft.EntityFrameworkCore;
 
